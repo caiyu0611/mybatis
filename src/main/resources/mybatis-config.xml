@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"></properties>
+
+    <settings>
+<!--        开启二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+    <typeAliases>
+<!--        //配置一个别名,为了写和看的方便 别名和类名保持一致-->
+<!--        <typeAlias type="com.njzhenghou.entity.Person" alias="Person"></typeAlias>-->
+<!--        配置多个别名,整个包,别名默认为类名-->
+        <package name="com.njzhenghou.entity"/>
+    </typeAliases>
+    
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="static/UserMapper.xml"/>
+        <mapper resource="static/EmpMapper.xml"/>
+        <mapper resource="static/DeptMapper.xml"/>
+        <mapper resource="static/KeyMapper.xml"/>
+        <mapper resource="static/LockMapper.xml"/>
+        <mapper resource="static/StudentMapper.xml"/>
+        <mapper resource="static/CatMapper.xml"/>
+<!--        resources :如果用的是配置文件  资源路径用这个-->
+        <mapper resource="static/PersonMapper.xml"/>
+<!--        class ：当我们用的是注解 注册时候用class-->
+        <mapper class="com.njzhenghou.mapper.PersonMapperAonntion"/>
+        <mapper resource="static/CatMapper.xml"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.StudentMapper">
+
+    <update id="updateStudent" parameterType="Student">
+        update student
+        <set>
+            <if test="name !=null &amp;&amp; name!=''">
+                name=#{name},
+            </if>
+            <if test="score !=null &amp;&amp; score!=''">
+                score=#{score},
+            </if>
+            <if test="brith !=null &amp;&amp; brith!=''">
+                brith=#{brith},
+            </if>
+            <if test="age !=null &amp;&amp; age!=''">
+                age=#{age},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="insertByTrim" parameterType="map" >
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name}
+            </if>
+            <if test="score != null">
+                #{score}
+            </if>
+            <if test="birth != null">
+                #{birth}
+            </if>
+            <if test="age != null">
+                #{age}
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getStudentByTrim" parameterType="Student" resultType="Student">
+        select * from student
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="name !=null &amp;&amp; name!=''">
+                and name = #{name}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getStudent_foreach" parameterType="map" resultType="Student">
+        select * from student
+        <if test="ages != null">
+            <where>
+                age in
+                <foreach item="age" collection="ages" open="(" separator="," close=")">
+                    #{age}
+                </foreach>
+            </where>
+        </if>
+    </select>
+
+    <select id="getStudent_choose" parameterType="hashmap" resultType="Student">
+        select * from Student
+        <choose>
+            <when test="name != null &amp;&amp; name != ''">
+                where  name = #{name}
+            </when>
+            <when test="age != null &amp;&amp; age != ''">
+                where  age = #{age}
+            </when>
+            <otherwise>
+                where 1=1
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getStudent_where" parameterType="Student" resultType="Student">
+        select * from student
+        <where>
+            <if test="name != null &amp;&amp; name != '' ">
+                name = #{name}
+            </if>
+            <if test="score != null &amp;&amp; score != ''" >
+                and score = #{score}
+            </if>
+        </where>
+    </select>
+
+    <select id="getByAge_if" parameterType="int" resultType="Student">
+        select * from student where 1=1
+        <if test="age>0">
+            and age=#{age}
+        </if>
+    </select>
+
+<!--    <select id="getByAge_if" parameterType="int" resultType="Student">-->
+<!--        select * from student where 1=1-->
+<!--        <if test="_parameter>0">-->
+<!--            and age=#{age}-->
+<!--        </if>-->
+<!--    </select>-->
+    
+    <select id="getByAge" parameterType="int" resultType="Student">
+        select * from student where age=#{age}
+    </select>
+
+</mapper>
