@@ -30,7 +30,7 @@ public class TestAny {
             SqlSession sqlSession = sqlSessionFactory.openSession();
             PersonMapper mapper = sqlSession.getMapper(PersonMapper.class);
             //增加
-            mapper.insertPerson(new Person(null,"赵六",28,new Date(),new Date(),8000.5));
+            mapper.insertPerson(new Person(null,"赵六",21111118,new Date(),new Date(),8000.5));
             //查询所有
             List<Person> people = mapper.selectAll();
             System.out.println(people);
